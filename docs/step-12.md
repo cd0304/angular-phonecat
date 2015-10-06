@@ -249,7 +249,7 @@ __`app/css/animations.css`__
 
 app/partials/phone-detail.html.
 
-```js
+```html
 <!-- We're only changing the top of the file -->
 <div class="phone-images">
   <img ng-src="{{img}}"
