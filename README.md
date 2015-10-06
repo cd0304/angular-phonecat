@@ -46,5 +46,5 @@ npm start
 * 9 -  [Filters](http://angularjs.cn/A002 "AngularJS快速开始")
 * 10 - [Event Handlers](http://angularjs.cn/A002 "AngularJS快速开始")
 * 11 - [REST and Custom Services](http://angularjs.cn/A002 "AngularJS快速开始")
-* 12 - [Applying Animations](http://angularjs.cn/A002 "AngularJS快速开始")
-* 13 - [The End](http://angularjs.cn/A002 "AngularJS快速开始")
+* 12 - [应用动画](https://github.com/cd0304/angular-phonecat/blob/master/docs/step-12.md)
+* 13 - [本章结束](https://github.com/cd0304/angular-phonecat/blob/master/docs/step-13.md )
