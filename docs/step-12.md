@@ -210,174 +210,46 @@ __`app/css/animations.css`__
 
 
 
+------------
+
+**指令  支持的能力**
 
 
-|| *Directive* || *Supported* ||
-|| ngRepeat   || enter  leave and move||
-|| ngView	|| enter and leave||
-|| ngInclude	|| enter and leave||
-|| ngSwitch	|| enter and leave||
-|| ngIf	|| enter and leave||
-|| ngClass or||	add and remove||
-|| ngShow & ngHide	|| add and remove ||
+* ngRepeatenter  leave and move
+* ngView|enter and leave
+* ngInclude	 enter and leave
+* ngSwitch	 enter and leave
+* ngIf enter and leave
+* ngClass or	add and remove
+* ngShow & ngHide	 add and remove 
 
+------------
 
+这个是什么意思呢？
+原来当这些指令所对应的html元素被创建、被移动、被移除的时候，他会自动的在class里面添加对应的类名
+如代码中，一个item被创建时，他会在class类中添加ng-enter
+即，实际上，当创建是，class是变成如下的
 
-  * The `ng-enter` class is applied to the element when a new phone is added to the list and rendered on the page.
-  * The `ng-move` class is applied when items are moved around in the list.
-  * The `ng-leave` class is applied when they're removed from the list.
-
-The phone listing items are added and removed depending on the data passed to the `ng-repeat` attribute.
-For example, if the filter data changes, the items will be animated in and out of the repeat list.
-
-Something important to note is that when an animation occurs, two sets of CSS classes
-are added to the element:
-
-  1. a "starting" class that represents the style at the beginning of the animation
-  2. an "active" class that represents the style at the end of the animation
-
-The name of the starting class is the name of the event that is fired (like `enter`, `move` or `leave`) prefixed with
-`ng-`. So an `enter` event will result in a class called `ng-enter`.
-
-The active class name is the same as the starting class's but with an `-active` suffix.
-This two-class CSS naming convention allows the developer to craft an animation, beginning to end.
-
-In our example above, elements are expanded from a height of **0** to **120 pixels** when they're added to the 
-list and are collapsed back down to **0 pixels** before being removed from the list.
-There's also a nice fade-in and fade-out effect that occurs at the same time. All of this is handled
-by the CSS transition declarations at the top of the example code above.
-
-Although most modern browsers have good support for [CSS transitions](http://caniuse.com/#feat=css-transitions)
-and [CSS animations](http://caniuse.com/#feat=css-animation), IE9 and earlier do not.
-If you want animations that are backwards-compatible with older browsers, consider using JavaScript-based animations,
-which are described in detail below.
-
-
-## Animating `ngView` with CSS Keyframe Animations
-
-Next let's add an animation for transitions between route changes in {@link ngRoute.directive:ngView `ngView`}.
-
-To start, let's add a new CSS class to our HTML like we did in the example above.
-This time, instead of the `ng-repeat` element, let's add it to the element containing the `ng-view` directive.
-In order to do this, we'll have to make some small changes to the HTML code so that we can have more control over our
-animations between view changes.
-
-__`app/index.html`.__
-
-```html
-<div class="view-container">
-  <div ng-view class="view-frame"></div>
-</div>
+``` html
+ <li ng-repeat="phone in phones | filter:query | orderBy:orderProp"
+      class="thumbnail phone-listing ng-enter">
+```
+同样，在被移除时，会变成
+``` html
+ <li ng-repeat="phone in phones | filter:query | orderBy:orderProp"
+      class="thumbnail phone-listing ng-leave">
 ```
 
-With this change, the `ng-view` directive is nested inside a parent element with
-a `view-container` CSS class. This class adds a `position: relative` style so that the positioning of the `ng-view`
-is relative to this parent as it animates transitions.
-
-With this in place, let's add the CSS for this transition animation to our `animations.css` file:
-
-__`app/css/animations.css`.__
-
-```css
-.view-container {
-  position: relative;
-}
-
-.view-frame.ng-enter, .view-frame.ng-leave {
-  background: white;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-}
-
-.view-frame.ng-enter {
-  -webkit-animation: 0.5s fade-in;
-  -moz-animation: 0.5s fade-in;
-  -o-animation: 0.5s fade-in;
-  animation: 0.5s fade-in;
-  z-index: 100;
-}
-
-.view-frame.ng-leave {
-  -webkit-animation: 0.5s fade-out;
-  -moz-animation: 0.5s fade-out;
-  -o-animation: 0.5s fade-out;
-  animation: 0.5s fade-out;
-  z-index:99;
-}
-
-@keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-@-moz-keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-@-webkit-keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes fade-out {
-  from { opacity: 1; }
-  to { opacity: 0; }
-}
-@-moz-keyframes fade-out {
-  from { opacity: 1; }
-  to { opacity: 0; }
-}
-@-webkit-keyframes fade-out {
-  from { opacity: 1; }
-  to { opacity: 0; }
-}
-
-/* don't forget about the vendor-prefixes! */
-```
-
-Nothing crazy here! Just a simple fade in and fade out effect between pages. The only out of the
-ordinary thing here is that we're using absolute positioning to position the next page (identified
-via `ng-enter`) on top of the previous page (the one that has the `ng-leave` class) while performing
-a cross fade animation in between. So as the previous page is just about to be removed, it fades out
-while the new page fades in right on top of it.
-
-Once the leave animation is over then element is removed and once the enter animation is complete
-then the `ng-enter` and `ng-enter-active` CSS classes are removed from the element, causing it to rerender and
-reposition itself with its default CSS code (so no more absolute positioning once the animation is
-over). This works fluidly so that pages flow naturally between route changes without anything
-jumping around.
-
-The CSS classes applied (the start and end classes) are much the same as with `ng-repeat`. Each time
-a new page is loaded the `ng-view` directive will create a copy of itself, download the template and
-append the contents. This ensures that all views are contained within a single HTML element which
-allows for easy animation control.
-
-For more on CSS animations, see the
-[Web Platform documentation](http://docs.webplatform.org/wiki/css/properties/animations).
+然后我们再看看上面css的定义就知道，动画是怎么产生的了。
 
 
-## Animating `ngClass` with JavaScript
+##使用方法2： 利用jquey实现动画
 
-Let's add another animation to our application. Switching to our `phone-detail.html` page,
-we see that we have a nice thumbnail swapper. By clicking on the thumbnails listed on the page,
-the profile phone image changes. But how can we change this around to add animations?
+在手机详细页中的动画并不是借助css实现的，而是通过jquery实现的
 
-Let's think about it first. Basically, when you click on a thumbnail image, you're changing the
-state of the profile image to reflect the newly selected thumbnail image.
-The best way to specify state changes within HTML is to use classes.
-Much like before, how we used a CSS class to specify an animation, this time the animation will
-occur whenever the CSS class itself changes.
+app/partials/phone-detail.html.
 
-Whenever a new phone thumbnail is selected, the state changes and the `.active` CSS class is added
-to the matching profile image and the animation plays.
-
-Let's get started and tweak our HTML code on the `phone-detail.html` page first. Notice that we 
-have changed the way we display our large image:
-
-__`app/partials/phone-detail.html`.__
-
-```html
+```js
 <!-- We're only changing the top of the file -->
 <div class="phone-images">
   <img ng-src="{{img}}"
@@ -397,58 +269,17 @@ __`app/partials/phone-detail.html`.__
 </ul>
 ```
 
-Just like with the thumbnails, we're using a repeater to display **all** the profile images as a
-list, however we're not animating any repeat-related animations. Instead, we're keeping our eye on
-the ng-class directive since whenever the `active` class is true then it will be applied to the
-element and will render as visible. Otherwise, the profile image is hidden. In our case, there is
-always one element that has the active class, and, therefore, there will always be one phone profile
-image visible on screen at all times.
 
-When the active class is added to the element, the `active-add` and the `active-add-active` classes
-are added just before to signal AngularJS to fire off an animation. When removed, the
-`active-remove` and the `active-remove-active` classes are applied to the element which in turn
-trigger another animation.
+可以发现，并不是在class中添加标记，而是增加了一个指令： ng-class="{active:mainImageUrl==img}"
 
-To ensure that the phone images are displayed correctly when the page is first loaded we also tweak
-the detail page CSS styles:
+当mainImageUrl==img，即显示的那个主img是该img时，active为true
 
-__`app/css/app.css`__
-```css
-.phone-images {
-  background-color: white;
-  width: 450px;
-  height: 450px;
-  overflow: hidden;
-  position: relative;
-  float: left;
-}
+在来看看animations.js中的代码，增加了一个新的模块，并使用animation
 
-...
+app/js/animations.js.
 
-img.phone {
-  float: left;
-  margin-right: 3em;
-  margin-bottom: 2em;
-  background-color: white;
-  padding: 2em;
-  height: 400px;
-  width: 400px;
-  display: none;
-}
+``` js
 
-img.phone:first-child {
-  display: block;
-  }
-```
-
-
-You may be thinking that we're just going to create another CSS-enabled animation.
-Although we could do that, let's take the opportunity to learn how to create JavaScript-enabled
-animations with the `animation()` module method.
-
-__`app/js/animations.js`.__
-
-```js
 var phonecatAnimations = angular.module('phonecatAnimations', ['ngAnimate']);
 
 phonecatAnimations.animation('.phone', function() {
@@ -503,39 +334,11 @@ phonecatAnimations.animation('.phone', function() {
 });
 ```
 
-Note that we're using [jQuery](http://jquery.com/) to implement the animation. jQuery
-isn't required to do JavaScript animations with AngularJS, but we're going to use it because writing
-your own JavaScript animation library is beyond the scope of this tutorial. For more on
-`jQuery.animate`, see the [jQuery documentation](http://api.jquery.com/animate/).
 
-The `addClass` and `removeClass` callback functions are called whenever a class is added or removed
-on the element that contains the class we registered, which is in this case `.phone`. When the `.active`
-class is added to the element (via the `ng-class` directive) the `addClass` JavaScript callback will
-be fired with `element` passed in as a parameter to that callback. The last parameter passed in is the
-`done` callback function. The purpose of `done` is so you can let Angular know when the JavaScript
-animation has ended by calling it.
-
-The `removeClass` callback works the same way, but instead gets triggered when a class is removed
-from the element.
-
-Within your JavaScript callback, you create the animation by manipulating the DOM. In the code above,
-that's what the `element.css()` and the `element.animate()` are doing. The callback positions the next
-element with an offset of `500 pixels` and animates both the previous and the new items together by
-shifting each item up `500 pixels`. This results in a conveyor-belt like animation. After the `animate`
-function does its business, it calls `done`.
-
-Notice that `addClass` and `removeClass` each return a function. This is an **optional** function that's
-called when the animation is cancelled (when another animation takes place on the same element)
-as well as when the animation has completed. A boolean parameter is passed into the function which
-lets the developer know if the animation was cancelled or not. This function can be used to
-do any cleanup necessary for when the animation finishes.
+代码细节先不追究，其大意是：该模块返回了一个对象，指明了，当phone这个class所对应的元素增加class或者去除class的时候
+调用响应的响应函数：animateUp和animateDown
+而ng-class="{active:mainImageUrl==img} 这个指令就能控制他增加actiove还是去除actiove
+因此，当鼠标点中他的时候，就符合了条件，active添加到class中，从而引发了animateUp响应函数
 
 
-# Summary
 
-There you have it!  We have created a web app in a relatively short amount of time. In the {@link
-the_end closing notes} we'll cover where to go from here.
-
-<ul doc-tutorial-nav="12"></ul>
-
-[bower]: http://bower.io/
