@@ -1,19 +1,21 @@
 
 
 
-在这一章节, 我们将利用css和js动画来加强这个手机网站的显示效果.
+###在这一章节, 我们将利用css和js动画来加强这个手机网站的显示效果.
 
-* 我们将使用 `ngAnimate` 模块来激活动.
-* We also use common `ng` directives to automatically trigger hooks for animations to tap into.
-* When an animation is found then the animation will run in between the standard DOM operation that
-  is being issued on the element at the given time (e.g. inserting and removing nodes on
-  {@link ngRepeat `ngRepeat`} or adding and removing classes on
-  {@link ngClass `ngClass`}).
+我们将使用 `ngAnimate` 模块来配合完成这个功能.
+实现这个特效，有两种办法：
+
+* ngAnimate配合css实现
+* ngAnimate配合jquery提供的animate方法实现
+
+这个章节手机列表页和手机详细页分别使用了这两种办法来实现动画效果
 
 ##切换版本
     git checkout -f step-12
     npm start
 我们重新用浏览器打开，点击手机详细页，我们发现当点击不同的图片时，主图片出现了滚动的显示效果
+在手机主页上，切换过滤条件，你会发现右边的手机列表的图片是有一个滑动效果的。
 
 下面我们来分析代码：
 
@@ -55,29 +57,18 @@ angular提供了一个实现动画功能的模块 `ngAnimate` ,他是单独发�
 
 
 
-  **Warning:** If a new version of Angular has been released since you last ran `npm install`, then you may have a
-  problem with the `bower install` due to a conflict between the versions of angular.js that need to
-  be installed.  If you get this then simply delete your `app/bower_components` folder before running
-  `npm install`.
-
-
-  **Note:** If you have bower installed globally then you can run `bower install` but for this project we have
-  preconfigured `npm install` to run bower for us.
-
-
 
 ##  ngAnimate是如何工作的
 
+更加详细的工作原理可以参考官方指导：
 [ngAnimate详细官方指导](https://docs.angularjs.org/guide/animations)
 
+你也可以仅看下面的讲解，也能明白他的工作原理：
 
 
-## Template
 
-The changes required within the HTML template code is to link the asset files which define the animations as
-well as the `angular-animate.js` file. The animation module, known as {@link module:ngAnimate `ngAnimate`}, is
-defined within `angular-animate.js` and contains the code necessary to make your application become animation
-aware.
+## 模版
+
 
 我们看到在index.html中，代码有了如下的变化
 
@@ -105,15 +96,9 @@ __`app/index.html`.__
 ```
 
 
-  **Important:** Be sure to use jQuery version 2.1 or newer when using Angular 1.4; jQuery 1.x is
-  not officially supported.
-  Be sure to load jQuery before all AngularJS scripts, otherwise AngularJS won't detect jQuery and
-  animations will not work as expected.
 
 
-Animations can now be created within the CSS code (`animations.css`) as well as the JavaScript code (`animations.js`).
-But before we start, let's create a new module which uses the ngAnimate module as a dependency just like we did before
-with `ngResource`.
+
 
 ## Module & Animations
 
@@ -126,7 +111,7 @@ angular.module('phonecatAnimations', ['ngAnimate']);
   // ...
 ```
 
-And now let's attach this module to our application module...
+
 
 __`app/js/app.js`.__
 
@@ -142,14 +127,19 @@ angular.module('phonecatApp', [
 ]);
 // ...
 ```
+好了，下面我们开始制作动画效果了
 
-Now, the phonecat module is animation aware. Let's make some animations!
+
+## 使用方法1： CSS Transition Animations
 
 
-## Animating ngRepeat with CSS Transition Animations
 
-We'll start off by adding CSS transition animations to our `ngRepeat` directive present on the `phone-list.html` page.
-First let's add an extra CSS class to our repeated element so that we can hook into it with our CSS animation code.
+我们先在phone-list.html页面增加动画效果，让手机列表出来和消失的时候都有一个动画过度效果，具体效果，大家可以在浏览器上
+体验一下，当输入过滤的时候，我们看到手机列表已经不是那么呆板的出现了，而是有一个平滑的过度效果。
+
+这个是如何做到的呢：
+
+先来看看phone-list.html文件的代码变化
 
 __`app/partials/phone-list.html`.__
 
@@ -169,9 +159,8 @@ __`app/partials/phone-list.html`.__
 
 ```
 
-Notice how we added the `phone-listing` CSS class? This is all we need in our HTML code to get animations working.
 
-Now for the actual CSS transition animation code:
+我们看到在class中增加了phone-listing的类，只要html代码中增加这个就行了，剩下的就交给css了
 
 __`app/css/animations.css`__
 
@@ -211,8 +200,28 @@ __`app/css/animations.css`__
 }
 ```
 
-As you can see our `phone-listing` CSS class is combined together with the animation hooks that occur when items are
-inserted into and removed from the list:
+这样便可实现手机列表页的动画效果。
+
+为何这样就能实现这个效果，其玄机何在？
+
+###机理
+引入了angular-animate.js后，一些指令便有了对class控制的能力，拥有这类能力的指令如下：
+
+
+
+
+
+
+|| *Directive* || *Supported* ||
+|| ngRepeat   || enter  leave and move||
+|| ngView	|| enter and leave||
+|| ngInclude	|| enter and leave||
+|| ngSwitch	|| enter and leave||
+|| ngIf	|| enter and leave||
+|| ngClass or||	add and remove||
+|| ngShow & ngHide	|| add and remove ||
+
+
 
   * The `ng-enter` class is applied to the element when a new phone is added to the list and rendered on the page.
   * The `ng-move` class is applied when items are moved around in the list.
