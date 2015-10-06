@@ -1,12 +1,11 @@
 
-
 # Angularjs 中文教程  -翻译并完善于angular官方文档的入门教程
 
 非常欢迎更多对AngularJS感兴趣的朋友加入一起学习！ qq群341665918
 
 #程序效果
 这个教程通过对一个完整的例子进行一步一步的学习，并最终完成一个完整的手机网站查询浏览的web程序，
-通过这个例子，能快速掌握angualay的知识要点，是angulay入门的捷径。如果能紧跟本教程一步一步学习，
+通过这个例子，能快速掌握angualar的知识要点，是angular入门的捷径。如果能紧跟本教程一步一步学习，
 只需要一天的时间就可以快速入门angular。
 
 ![img](https://docs.angularjs.org/img/tutorial/catalog_screen.png)
@@ -49,4 +48,3 @@ npm start
 * 11 - [REST and Custom Services](http://angularjs.cn/A002 "AngularJS快速开始")
 * 12 - [Applying Animations](http://angularjs.cn/A002 "AngularJS快速开始")
 * 13 - [The End](http://angularjs.cn/A002 "AngularJS快速开始")
-
