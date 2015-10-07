@@ -3,12 +3,10 @@
 /* App Module */
 
 var phonecatApp = angular.module('phonecatApp', [
-  'ionic',
   'ngRoute',
   'phonecatAnimations',
 
   'phonecatControllers',
-  'HomeController',
   'phonecatFilters',
   'phonecatServices'
 ]);
@@ -24,11 +22,7 @@ phonecatApp.config(['$routeProvider',
         templateUrl: 'partials/phone-detail.html',
         controller: 'PhoneDetailCtrl'
       }).
-      when('/home',{
-        templateUrl: 'templates/tabs.html',
-        controller: 'HomeCtrl'
-      }).
       otherwise({
-        redirectTo: '/home'
+        redirectTo: '/phones'
       });
   }]);
