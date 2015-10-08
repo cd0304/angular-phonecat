@@ -3,7 +3,11 @@
 /* App Module */
 
 var phonecatApp = angular.module('phonecatApp', [
-  'ui.router'
+   'ui.router',
+   'phonecatAnimations',
+   'phonecatControllers',
+   'phonecatFilters',
+   'phonecatServices'
 ]);
 
 
@@ -11,6 +15,8 @@ phonecatApp.config(function($stateProvider, $urlRouterProvider) {
   //
   // For any unmatched url, redirect to /state1
   $urlRouterProvider.otherwise("/state1");
+
+
   //
   // Now set up the states
   $stateProvider
@@ -20,10 +26,8 @@ phonecatApp.config(function($stateProvider, $urlRouterProvider) {
       })
       .state('state1.list', {
         url: "/list",
-        templateUrl: "partials/state1.list.html",
-        controller: function($scope) {
-          $scope.items = ["A", "List", "Of", "Items"];
-        }
+        templateUrl: "partials/phone-list.html",
+        controller: 'PhoneListCtrl'
       })
       .state('state2', {
         url: "/state2",
