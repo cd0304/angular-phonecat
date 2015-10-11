@@ -24,6 +24,11 @@ phonecatApp.config(function($stateProvider, $urlRouterProvider) {
         url: "/state1",
         templateUrl: "partials/state1.html"
       })
+      .state('state1.detail', {
+          url: "/detail/:phoneId",
+          templateUrl: "partials/phone-detail.html",
+          controller: 'PhoneDetailCtrl'
+      })
       .state('state1.list', {
         url: "/list",
         templateUrl: "partials/phone-list.html",
