@@ -48,3 +48,7 @@ npm start
 * 11 - [REST and Custom Services](http://angularjs.cn/A002 "AngularJS快速开始")
 * 12 - [应用动画](https://github.com/cd0304/angular-phonecat/blob/master/docs/step-12.md)
 * 13 - [本章结束](https://github.com/cd0304/angular-phonecat/blob/master/docs/step-13.md )
+
+
+* 14 - [第二章 - ui-router](https://github.com/cd0304/angular-phonecat/blob/master/docs/step-14.md )
+* 15 - [第二章 - ui-router的手机网站](https://github.com/cd0304/angular-phonecat/blob/master/docs/step-15.md )
