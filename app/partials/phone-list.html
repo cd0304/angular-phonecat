@@ -1,28 +1,21 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-md-2">
-      <!--Sidebar content-->
 
-      Search: <input ng-model="query">
-      Sort by:
-      <select ng-model="orderProp">
-        <option value="name">Alphabetical</option>
-        <option value="age">Newest</option>
-      </select>
 
-    </div>
-    <div class="col-md-10">
-      <!--Body content-->
+  <ion-view title="手机列表">
+      <ion-content >
+      <ion-list >
+        <ion-item ng-repeat="phone in phones"
+                  class="item-thumbnail-left" href="#/tab/phonedetail/{{phone.id}}">
+          <img ng-src="{{phone.imageUrl}}">
 
-      <ul class="phones">
-        <li ng-repeat="phone in phones | filter:query | orderBy:orderProp"
-            class="thumbnail phone-listing">
-          <a href="#/state1/detail/{{phone.id}}" class="thumb"><img ng-src="{{phone.imageUrl}}"></a>
-          <a href="#/state1/detail/{{phone.id}}">{{phone.name}}</a>
-          <p>{{phone.snippet}}</p>
-        </li>
-      </ul>
+          <h2 >{{phone.name}}</h2>
+          <div  class="item-body"><p>  {{phone.snippet}}</p></div>
 
-    </div>
-  </div>
-</div>
+        </ion-item>
+      </ion-list>
+
+      </ion-content>
+  </ion-view>
+
+
+
+

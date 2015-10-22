@@ -3,7 +3,8 @@
 /* App Module */
 
 var phonecatApp = angular.module('phonecatApp', [
-   'ui.router',
+    'ionic',
+
    'phonecatAnimations',
    'phonecatControllers',
    'phonecatFilters',
@@ -11,38 +12,53 @@ var phonecatApp = angular.module('phonecatApp', [
 ]);
 
 
-phonecatApp.config(function($stateProvider, $urlRouterProvider) {
+phonecatApp.config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider) {
   //
   // For any unmatched url, redirect to /state1
-  $urlRouterProvider.otherwise("/state1");
+  $urlRouterProvider.otherwise("/tab/phonelist");
+  $ionicConfigProvider.tabs.position('bottom');
+    $ionicConfigProvider.platform.ios.tabs.style('standard');
+    $ionicConfigProvider.platform.ios.tabs.position('bottom');
+    $ionicConfigProvider.platform.android.tabs.style('standard');
+    $ionicConfigProvider.platform.android.tabs.position('bottom');
 
+    $ionicConfigProvider.platform.ios.navBar.alignTitle('center');
+    $ionicConfigProvider.platform.android.navBar.alignTitle('left');
 
-  //
+    $ionicConfigProvider.platform.ios.backButton.previousTitleText('').icon('ion-ios-arrow-thin-left');
+    $ionicConfigProvider.platform.android.backButton.previousTitleText('').icon('ion-android-arrow-back');
+
+    $ionicConfigProvider.platform.ios.views.transition('ios');
+    $ionicConfigProvider.platform.android.views.transition('android');
   // Now set up the states
   $stateProvider
-      .state('state1', {
-        url: "/state1",
-        templateUrl: "partials/state1.html"
+      .state('tab', {
+          url: '/tab',
+          abstract:true,
+          templateUrl: 'partials/tabs.html'
+
       })
-      .state('state1.detail', {
-          url: "/detail/:phoneId",
-          templateUrl: "partials/phone-detail.html",
-          controller: 'PhoneDetailCtrl'
+      .state('tab.phonelist', {
+          url: "/phonelist",
+
+          views: {
+              'tabphonelist': {
+                  templateUrl: 'partials/phone-list.html',
+                  controller:'PhoneListCtrl'
+              }
+          }
       })
-      .state('state1.list', {
-        url: "/list",
-        templateUrl: "partials/phone-list.html",
-        controller: 'PhoneListCtrl'
-      })
-      .state('state2', {
-        url: "/state2",
-        templateUrl: "partials/state2.html"
-      })
-      .state('state2.list', {
-        url: "/list",
-        templateUrl: "partials/state2.list.html",
-        controller: function($scope) {
-          $scope.things = ["A", "Set", "Of", "Things"];
-        }
+      .state('tab.phonedetail', {
+          url: "/phonedetail/:phoneId",
+          views: {
+              'tabphonelist': {
+                  templateUrl: 'partials/phone-detail.html',
+                  controller:'PhoneDetailCtrl'
+              }
+          }
       });
+
 });
+
+
+

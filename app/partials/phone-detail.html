@@ -1,51 +1,55 @@
-<div class="phone-images">
-  <img ng-src="{{img}}"
-       class="phone"
-       ng-repeat="img in phone.images"
-       ng-class="{active: mainImageUrl==img}">
-</div>
+<ion-view>
+<ion-content >
+  <div class="card">
 
-<h1>{{phone.name}}</h1>
-
-<p>{{phone.description}}</p>
-
-<ul class="phone-thumbs">
-  <li ng-repeat="img in phone.images">
-    <img ng-src="{{img}}" ng-click="setImage(img)">
-  </li>
-</ul>
-
-<ul class="specs">
-  <li>
-    <span>Availability and Networks</span>
-    <dl>
-      <dt>Availability</dt>
+    <!--<div class="item  item-body">-->
+      <ion-slide-box does-continue="false" show-pager="true">
+        <ion-slide ng-repeat="img in phone.images">
+          <div class="box">   <img  class="full-image " ng-src="{{img}}"></div>
+        </ion-slide>
+      </ion-slide-box>
+    <h2>{{phone.name}}</h2>
+    <div class="item-body"><p>{{phone.description}}</p></div>
+    <!--</div>-->
+  </div>
+  <ion-item>
+    <h2 >Availability and Networks</h2>
+    <div  class="item-body">
       <dd ng-repeat="availability in phone.availability">{{availability}}</dd>
-    </dl>
-  </li>
-  <li>
-    <span>Battery</span>
-    <dl>
+
+    </div>
+
+  </ion-item>
+
+  <ion-item>
+    <h2 >Battery</h2>
+    <div  class="item-body">
+      <dl>
       <dt>Type</dt>
       <dd>{{phone.battery.type}}</dd>
       <dt>Talk Time</dt>
       <dd>{{phone.battery.talkTime}}</dd>
       <dt>Standby time (max)</dt>
       <dd>{{phone.battery.standbyTime}}</dd>
-    </dl>
-  </li>
-  <li>
-    <span>Storage and Memory</span>
-    <dl>
+      </dl>
+    </div>
+  </ion-item>
+
+  <ion-item>
+    <h2 >Storage and Memory</h2>
+    <div  class="item-body">
+      <dl>
       <dt>RAM</dt>
       <dd>{{phone.storage.ram}}</dd>
       <dt>Internal Storage</dt>
       <dd>{{phone.storage.flash}}</dd>
-    </dl>
-  </li>
-  <li>
-    <span>Connectivity</span>
-    <dl>
+      </dl>
+    </div>
+  </ion-item>
+  <ion-item>
+    <h2 >Connectivity</h2>
+    <div  class="item-body">
+      <dl>
       <dt>Network Support</dt>
       <dd>{{phone.connectivity.cell}}</dd>
       <dt>WiFi</dt>
@@ -56,40 +60,63 @@
       <dd>{{phone.connectivity.infrared | checkmark}}</dd>
       <dt>GPS</dt>
       <dd>{{phone.connectivity.gps | checkmark}}</dd>
-    </dl>
-  </li>
-  <li>
-    <span>Android</span>
-    <dl>
+      </dl>
+    </div>
+  </ion-item>
+
+  <ion-item>
+    <h2 >Android</h2>
+    <div  class="item-body">
+      <dl>
       <dt>OS Version</dt>
       <dd>{{phone.android.os}}</dd>
       <dt>UI</dt>
       <dd>{{phone.android.ui}}</dd>
-    </dl>
-  </li>
-  <li>
-    <span>Size and Weight</span>
-    <dl>
+      </dl>
+    </div>
+  </ion-item>
+  <ion-item>
+    <h2 >Android</h2>
+    <div  class="item-body">
+      <dl>
       <dt>Dimensions</dt>
       <dd ng-repeat="dim in phone.sizeAndWeight.dimensions">{{dim}}</dd>
       <dt>Weight</dt>
       <dd>{{phone.sizeAndWeight.weight}}</dd>
-    </dl>
-  </li>
-  <li>
-    <span>Display</span>
-    <dl>
+      </dl>
+    </div>
+  </ion-item>
+
+  <ion-item>
+    <h2 >Size and Weight</h2>
+    <div  class="item-body">
+      <dl>
+      <dt>Dimensions</dt>
+      <dd ng-repeat="dim in phone.sizeAndWeight.dimensions">{{dim}}</dd>
+      <dt>Weight</dt>
+      <dd>{{phone.sizeAndWeight.weight}}</dd>
+      </dl>
+    </div>
+  </ion-item>
+
+  <ion-item>
+    <h2 >Display</h2>
+    <div  class="item-body">
+      <dl>
       <dt>Screen size</dt>
       <dd>{{phone.display.screenSize}}</dd>
       <dt>Screen resolution</dt>
       <dd>{{phone.display.screenResolution}}</dd>
       <dt>Touch screen</dt>
       <dd>{{phone.display.touchScreen | checkmark}}</dd>
-    </dl>
-  </li>
-  <li>
-    <span>Hardware</span>
-    <dl>
+      </dl>
+    </div>
+  </ion-item>
+
+  <ion-item>
+    <h2 >Hardware</h2>
+    <div  class="item-body">
+      <dl>
       <dt>CPU</dt>
       <dd>{{phone.hardware.cpu}}</dd>
       <dt>USB</dt>
@@ -100,19 +127,28 @@
       <dd>{{phone.hardware.fmRadio | checkmark}}</dd>
       <dt>Accelerometer</dt>
       <dd>{{phone.hardware.accelerometer | checkmark}}</dd>
-    </dl>
-  </li>
-  <li>
-    <span>Camera</span>
-    <dl>
+      </dl>
+    </div>
+  </ion-item>
+  <ion-item>
+    <h2 >Camera</h2>
+    <div  class="item-body">
+      <dl>
       <dt>Primary</dt>
       <dd>{{phone.camera.primary}}</dd>
       <dt>Features</dt>
       <dd>{{phone.camera.features.join(', ')}}</dd>
-    </dl>
-  </li>
-  <li>
-    <span>Additional Features</span>
-    <dd>{{phone.additionalFeatures}}</dd>
-  </li>
-</ul>
+      </dl>
+    </div>
+  </ion-item>
+  <ion-item>
+    <h2 >Additional Features</h2>
+    <div  class="item-body">
+      <dd>{{phone.additionalFeatures}}</dd>
+    </div>
+  </ion-item>
+
+
+  </ion-content >
+</ion-view>
+

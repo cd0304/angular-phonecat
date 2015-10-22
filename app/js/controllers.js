@@ -10,8 +10,9 @@ phonecatControllers.controller('PhoneListCtrl', ['$scope', 'Phone',
     $scope.orderProp = 'age';
   }]);
 
-phonecatControllers.controller('PhoneDetailCtrl', ['$scope', '$stateParams', 'Phone',
-  function($scope, $stateParams, Phone) {
+phonecatControllers.controller('PhoneDetailCtrl', ['$scope', '$stateParams',
+  '$timeout','Phone','$ionicSlideBoxDelegate',
+  function($scope, $stateParams,$timeout, Phone,$ionicSlideBoxDelegate) {
 
     $scope.phone = Phone.get({phoneId: $stateParams.phoneId}, function(phone) {
       $scope.mainImageUrl = phone.images[0];
@@ -20,4 +21,7 @@ phonecatControllers.controller('PhoneDetailCtrl', ['$scope', '$stateParams', 'Ph
     $scope.setImage = function(imageUrl) {
       $scope.mainImageUrl = imageUrl;
     };
+    $timeout(function() {
+      $ionicSlideBoxDelegate.update();
+    }, 100);
   }]);
